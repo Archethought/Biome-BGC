@@ -15,7 +15,7 @@ HOST=`hostname`
 
 # Not including these CFLAGS/LDFLAGS will surely break something
 # So DON'T MODIFY THESE LINES. Modify the platform specific lines down below
-CFLAGS_GENERIC = -I${INCDIR} -DVERS="\\\"${VERSION}\\\"" -DUSER="\\\"${USER}\\\"" -DHOST="\\\"${HOST}\\\"" -static
+CFLAGS_GENERIC = -I${INCDIR} -DVERS="\\\"${VERSION}\\\"" -DUSER="\\\"${USER}\\\"" -DHOST="\\\"${HOST}\\\""
 LDFLAGS_GENERIC = -lm
 
 # For Linux
@@ -27,9 +27,15 @@ LDFLAGS = ${LDFLAGS_GENERIC}
 CC = gcc
 
 # For Generic UNIX with debugging
-CFLAGS = -g -Wall ${CFLAGS_GENERIC}
+CFLAGS = -g -Wall ${CFLAGS_GENERIC} -static
 # LDFLAGS = ${LDFLAGS_GENERIC}
 # CC = cc
+
+# For Mac OSX
+ifeq "$(shell uname)" "Darwin"
+CFLAGS = -g -Wall -I/usr/include/malloc $(CFLAGS_GENERIC)
+endif
+
 
 MACROS=ROOTDIR=${ROOTDIR} LIBDIR=${LIBDIR} INCDIR=${INCDIR} \
 	VERSION=${VERSION} CC=${CC} CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" 

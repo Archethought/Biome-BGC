@@ -18,6 +18,8 @@ http://nimbus.elte.hu/bbgc/documentation.html
 Note the possibility to use the model online without downloading the model code or executable:
 http://nimbus.elte.hu/bbgc/usingbbgc.html
 
+For instructions on compiling and running, see USAGE.txt
+
 
 Please contact us if you have any questions related to the model.
 Dóra HIDY: dori.hidy@gmail.com

@@ -118,7 +118,8 @@ int output_init(file init, output_struct* output)
 	{
 		strcpy(output->dayout.name,output->outprefix);
 		strcat(output->dayout.name,".dayout");
-		if (file_open(&(output->dayout),'w'))
+		char type_flag = output->dodaily == 1 ? 'w' : 'o';
+		if (file_open(&(output->dayout),type_flag))
 		{
 			printf("Error opening daily outfile (%s) in output_init()\n",output->dayout.name);
 			ok=0;
@@ -128,7 +129,8 @@ int output_init(file init, output_struct* output)
 	{
 		strcpy(output->monavgout.name,output->outprefix);
 		strcat(output->monavgout.name,".monavgout");
-		if (file_open(&(output->monavgout),'w'))
+		char type_flag = output->domonavg == 1 ? 'w' : 'o';
+		if (file_open(&(output->monavgout),type_flag))
 		{
 			printf("Error opening monthly average outfile (%s) in output_init()\n",output->monavgout.name);
 			ok=0;
@@ -138,7 +140,8 @@ int output_init(file init, output_struct* output)
 	{
 		strcpy(output->annavgout.name,output->outprefix);
 		strcat(output->annavgout.name,".annavgout");
-		if (file_open(&(output->annavgout),'w'))
+		char type_flag = output->doannavg == 1 ? 'w' : 'o';
+		if (file_open(&(output->annavgout),type_flag))
 		{
 			printf("Error opening annual average outfile (%s) in output_init()\n",output->annavgout.name);
 			ok=0;
@@ -148,7 +151,8 @@ int output_init(file init, output_struct* output)
 	{
 		strcpy(output->annout.name,output->outprefix);
 		strcat(output->annout.name,".annout");
-		if (file_open(&(output->annout),'w'))
+		char type_flag = output->doannual == 1 ? 'w' : 'o';
+		if (file_open(&(output->annout),type_flag))
 		{
 			printf("Error opening annual outfile (%s) in output_init()\n",output->annout.name);
 			ok=0;

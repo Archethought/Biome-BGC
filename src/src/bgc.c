@@ -1246,8 +1246,25 @@ int bgc(bgcin_struct* bgcin, bgcout_struct* bgcout)
 			if (ok && ctrl.dodaily)
 			{
 				/* write the daily output array to daily output file */
-				if (fwrite(dayarr, sizeof(float), ctrl.ndayout, bgcout->dayout.ptr)
-					!= (size_t)ctrl.ndayout)
+				int write_err = 0;
+				if (ctrl.dodaily == 1)
+				{
+					/* write outputs in binary format */
+					write_err = (fwrite(dayarr, sizeof(float), ctrl.ndayout, bgcout->dayout.ptr)
+						!= (size_t)ctrl.ndayout);
+				}
+				else if (ctrl.dodaily == 2)
+				{
+					/* write in ascii format */
+					for (int i=0; i < ctrl.ndayout; ++i)
+					{
+						if (0 >= fprintf(bgcout->dayout.ptr, "%f\t", dayarr[i]))
+							write_err = 1;
+					}
+					if (0 >= fprintf(bgcout->dayout.ptr, "\n"))
+						write_err = 1;
+				}
+				if (write_err)
 				{
 					printf("Error writing to %s: simyear = %d, simday = %d\n",
 						bgcout->dayout.name,simyr,yday);
@@ -1279,8 +1296,25 @@ int bgc(bgcin_struct* bgcin, bgcout_struct* bgcout)
 					}
 					
 					/* write to file */
-					if (fwrite(monavgarr, sizeof(float), ctrl.ndayout, bgcout->monavgout.ptr)
-						!= (size_t)ctrl.ndayout)
+					int write_err = 0;
+					if (ctrl.domonavg == 1)
+					{
+						/* write outputs in binary format */
+						write_err = (fwrite(monavgarr, sizeof(float), ctrl.ndayout, bgcout->monavgout.ptr)
+							!= (size_t)ctrl.ndayout);
+					}
+					else if (ctrl.domonavg == 2)
+					{
+						/* write in ascii format */
+						for (int i=0; i < ctrl.ndayout; ++i)
+						{
+							if (0 >= fprintf(bgcout->monavgout.ptr, "%f\t", monavgarr[i]))
+								write_err = 1;
+						}
+						if (0 >= fprintf(bgcout->monavgout.ptr, "\n"))
+							write_err = 1;
+					}
+					if (write_err)
 					{
 						printf("Error writing to %s: simyear = %d, simday = %d\n",
 							bgcout->monavgout.name,simyr,yday);
@@ -1322,8 +1356,25 @@ int bgc(bgcin_struct* bgcin, bgcout_struct* bgcout)
 					}
 					
 					/* write to file */
-					if (fwrite(annavgarr, sizeof(float), ctrl.ndayout, bgcout->annavgout.ptr)
-						!= (size_t)ctrl.ndayout)
+					int write_err = 0;
+					if (ctrl.doannavg == 1)
+					{
+						/* write outputs in binary format */
+						write_err = (fwrite(annavgarr, sizeof(float), ctrl.ndayout, bgcout->annavgout.ptr)
+							!= (size_t)ctrl.ndayout);
+					}
+					else if (ctrl.doannavg == 2)
+					{
+						/* write in ascii format */
+						for (int i=0; i < ctrl.ndayout; ++i)
+						{
+							if (0 >= fprintf(bgcout->annavgout.ptr, "%f\t", annavgarr[i]))
+								write_err = 1;
+						}
+						if (0 >= fprintf(bgcout->annavgout.ptr, "\n"))
+							write_err = 1;
+					}
+					if (write_err)
 					{
 						printf("Error writing to %s: simyear = %d, simday = %d\n",
 							bgcout->annavgout.name,simyr,yday);
@@ -1382,8 +1433,25 @@ int bgc(bgcin_struct* bgcin, bgcout_struct* bgcout)
 				annarr[outv] = (float) *output_map[ctrl.anncodes[outv]];
 			}
 			/* write the annual output array to annual output file */
-			if (fwrite(annarr, sizeof(float), ctrl.nannout, bgcout->annout.ptr)
-				!= (size_t)ctrl.nannout)
+			int write_err = 0;
+			if (ctrl.doannual == 1)
+			{
+				/* write outputs in binary format */
+				write_err = (fwrite(annarr, sizeof(float), ctrl.nannout, bgcout->annout.ptr)
+					!= (size_t)ctrl.nannout);
+			}
+			else if (ctrl.doannual == 2)
+			{
+				/* write in ascii format */
+				for (int i=0; i < ctrl.nannout; ++i)
+				{
+					if (0 >= fprintf(bgcout->annout.ptr, "%f\t", annarr[i]))
+						write_err = 1;
+				}
+				if (0 >= fprintf(bgcout->annout.ptr, "\n"))
+					write_err = 1;
+			}
+			if (write_err)
 			{
 				printf("Error writing to %s: simyear = %d, simday = %d\n",
 					bgcout->annout.name,simyr,yday);
